@@ -110,5 +110,51 @@ class DefectsAreCaught(unittest.TestCase):
         self.assertTrue(fc.check_restricted_fund_balances(d))
 
 
+    def test_journal_prepared_and_approved_by_same_user(self):
+        d = fresh()
+        h = d["journals"][0]
+        h["approved_by"] = h["created_by"]
+        self.assertTrue(any("same user" in i for i in fc.check_journal_approval(d)))
+
+    def test_journal_unapproved_or_approver_without_authority(self):
+        d = fresh()
+        d["journals"][0]["approved_by"] = ""
+        self.assertTrue(any("not approved" in i for i in fc.check_journal_approval(d)))
+        d = fresh()
+        d["journals"][0]["approved_by"] = "U10"   # budget analyst, not in JOURNAL_APPROVE
+        self.assertTrue(any("not in JOURNAL_APPROVE" in i for i in fc.check_journal_approval(d)))
+
+    def test_journal_without_header(self):
+        d = fresh()
+        d["journals"] = d["journals"][1:]
+        self.assertTrue(any("no header" in i for i in fc.check_journal_approval(d)))
+
+    def test_conflicting_security_groups_on_one_user(self):
+        d = fresh()
+        d["role_assignments"].append(dict(user_id="U01", security_group="AP_APPROVE"))
+        self.assertTrue(any("U01" in i and "AP_ENTRY" in i for i in fc.check_role_conflicts(d)))
+
+    def test_ap_subledger_does_not_tie_to_gl(self):
+        d = fresh()
+        d["ap_invoices"][0]["amount_local"] += Decimal("10.00")
+        self.assertTrue(any(i.startswith("AP subledger") for i in fc.check_subledger_tieout(d)))
+
+    def test_ar_subledger_does_not_tie_to_gl(self):
+        d = fresh()
+        d["ar_receipts"] = d["ar_receipts"][1:]
+        self.assertTrue(any(i.startswith("AR subledger") for i in fc.check_subledger_tieout(d)))
+
+    def test_budget_breaks_dimension_rules(self):
+        d = fresh()
+        d["budget_lines"][0]["fund"] = "F-RES"     # research fund is not allowed on this account
+        self.assertTrue(any("not allowed on account" in i for i in fc.check_budget_worktags(d)))
+        d = fresh()
+        d["budget_lines"][0]["cost_center"] = ""   # P&L account without a cost center
+        self.assertTrue(any("requires a cost center" in i for i in fc.check_budget_worktags(d)))
+        d = fresh()
+        d["budget_lines"][0]["ledger_account"] = "1000"
+        self.assertTrue(any("non-P&L" in i for i in fc.check_budget_worktags(d)))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,5 @@
+company_id,control,gl_balance,subledger_balance,difference
+COM,AP,150000.0,150000.0,0.0
+COM,AR,310660.0,310660.0,0.0
+UNI,AP,5232188.1,5232188.1,0.0
+UNI,AR,1339816.7,1339816.7,0.0

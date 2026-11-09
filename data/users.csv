@@ -1,0 +1,15 @@
+user_id,description
+U01,Accounts payable clerk
+U02,Accounts payable manager
+U03,Accounts receivable clerk
+U04,General ledger accountant
+U05,Financial controller
+U06,Grants accountant
+U07,Treasury officer
+U08,Asset accountant
+U09,Procurement officer (supplier master data)
+U10,Budget analyst
+U11,Finance business partner (budget approver)
+U12,Deputy financial controller
+U13,Cash application officer
+SYS-HCM,Integration user: HCM and payroll journal feed

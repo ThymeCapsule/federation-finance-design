@@ -1,0 +1,8 @@
+group_a,group_b,risk
+AP_ENTRY,AP_APPROVE,Same person could enter and approve a supplier invoice
+AP_ENTRY,SUPPLIER_MASTER,Same person could create a supplier and invoice it
+SUPPLIER_MASTER,PAYMENT_RELEASE,Same person could create a supplier and release payment
+AP_APPROVE,PAYMENT_RELEASE,Same person could approve an invoice and release the payment
+AR_ENTRY,AR_CASH_APPLY,Same person could raise an invoice and apply cash against it (concealment risk)
+JOURNAL_ENTRY,JOURNAL_APPROVE,Same person could post and approve a manual journal
+BUDGET_ENTRY,BUDGET_APPROVE,Same person could set and approve a budget

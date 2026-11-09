@@ -1,6 +1,6 @@
 # Solution Design: Workday Financials for Federation University Australia (modelled from public information)
 
-> **Read this first.** This is an independent portfolio exercise. It is not a Cognizant or Federation University document, I have no inside knowledge of either organisation, and it is not a Workday configuration. The organisation is real, so I separate what is **public** (with sources in section 13) from what I have **assumed**. All amounts in the accompanying dataset are invented and are not Federation's results.
+> **Read this first.** This is an independent portfolio exercise. It is not a Cognizant or Federation University document, I have no inside knowledge of either organisation, and it is not a Workday configuration. The organisation is real, so I separate what is **public** (with sources in section 14) from what I have **assumed**. All amounts in the accompanying dataset are invented and are not Federation's results.
 
 ## 1. Public facts versus assumptions
 
@@ -31,11 +31,14 @@ Cognizant's own case study names Workday Financials as the next phase after HCM 
 | Area | Design intent | In the model |
 |---|---|---|
 | Record-to-Report | Ledger by entity, fund and cost center; close and reconciliations | Journals, trial balance, intercompany, results by campus, sector and fund |
-| Procure-to-Pay | Supplier invoices coded to cost center and fund | Occupancy and supplier payments (simplified) |
+| Procure-to-Pay | Supplier invoices coded to cost center and fund | AP subledger of occupancy and capex invoices and payments (simplified) |
 | Grants and research projects | Cash received in advance, revenue recognised as costs are incurred, restricted to the research fund | Income in advance, recognition, grant controls |
 | Assets and capital works | Register ties to ledger; capital grants held in a capital fund | Asset register, depreciation, capital grant |
-| Student billing and fees | Billing sourced from a student system (not in scope) | Fees posted as summary journals |
-| Reporting | Rollups by campus, sector and fund | SQL reports using hierarchies |
+| Order-to-Cash | Student and commercial billing; receipts; AR tied to the ledger | AR subledger, receipts, summary student billing journals (feed itself not in scope) |
+| Expenses | Expense reports coded to cost center, fund and project | Design only: see `process_design.md` |
+| Projects, project billing, Accounting Center | Cost capture to grants, sponsor billing, rule-based journals from external events | Grants are in the model; billing and Accounting Center are design only |
+| Budgets | Budget ledger on the same worktags as actuals | Budget lines and report 08 (simulated) |
+| Reporting | Rollups by campus, sector and fund | Ten SQL reports using hierarchies; see `integrations_and_reporting.md` |
 
 ## 5. Legal entity and accounting architecture (assumed)
 
@@ -67,7 +70,7 @@ The case study credits standardisation, simplification, minimal customisation, a
 
 ## 8. Controls built into the design
 
-Nine automated checks stand in for controls a design would specify: balancing per company, required dimensions, valid dimension combinations (cost center to company, fund to account, project to fund), hierarchy integrity, intercompany agreement, trial balance integrity, asset register tie-out, grant revenue not recognised beyond funding received, and restricted funds not overspent. In a live design some would be preventive rules at posting and others detective reports in the close calendar, alongside approvals and segregation of duties (not modelled).
+Thirteen automated checks stand in for controls a design would specify: balancing per company, required dimensions, valid dimension combinations (cost center to company, fund to account, project to fund), hierarchy integrity, intercompany agreement, trial balance integrity, asset register tie-out, grant revenue not recognised beyond funding received, restricted funds not overspent, journal preparer and approver separation, security-group conflicts, AP and AR subledger tie-out, and budget-ledger dimension rules. In a live design some would be preventive rules at posting and others detective reports in the close calendar. `security_and_controls.md` classifies each. Approval thresholds, delegation and user lifecycle are not modelled.
 
 ## 9. Trade-offs I would put to the executive team
 
@@ -103,7 +106,18 @@ Nine automated checks stand in for controls a design would specify: balancing pe
 - Do reports need historical restatement when cost center hierarchies change?
 - Who owns the chart of accounts, fund list and each hierarchy after go-live?
 
-## 13. Sources
+## 13. Related design documents
+
+| Document | What it covers |
+|---|---|
+| `workday_fdm_mapping.md` | How this model maps to Workday FDM constructs; balancing worktag decision |
+| `process_design.md` | R2R, P2P, O2C, Expenses, Assets, Projects, Project billing, Accounting Center, Budgets, Reporting |
+| `security_and_controls.md` | Segregation of duties, preventive and detective classification of the controls |
+| `integrations_and_reporting.md` | Integration inventory, reconciliation, native reporting versus Prism |
+| `design_governance.md` | Decision log, design review checklist, cross-module dependencies, post go-live ownership |
+| `engagement_approach.md` | Discovery, sizing drivers, executive trade-off paper |
+
+## 14. Sources
 
 1. Cognizant, case study "Federation University transforms HCM systems to enable a unified platform" (cognizant.com).
 2. Federation University, media release "Federation University 2024 Annual Report tabled in Victorian Parliament", 13 May 2025 (federation.edu.au).

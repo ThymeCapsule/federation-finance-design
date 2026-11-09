@@ -8,7 +8,8 @@ from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
 IC_TOLERANCE_AUD = Decimal("1.00")
-TABLES = ["companies", "ledger_accounts", "cost_centers", "projects", "funds", "assets", "fx_rates", "hierarchy", "journal_lines"]
+TABLES = ["companies", "ledger_accounts", "cost_centers", "projects", "funds", "assets", "fx_rates", "hierarchy", "journal_lines",
+          "journals", "users", "role_assignments", "sod_conflicts", "ap_invoices", "ap_payments", "ar_invoices", "ar_receipts", "budget_lines"]
 
 
 def _read(path):
@@ -22,6 +23,9 @@ def load_data(folder="data"):
     for r in data["journal_lines"]:
         r["debit_local"] = Decimal(r["debit_local"])
         r["credit_local"] = Decimal(r["credit_local"])
+    for t in ("ap_invoices", "ap_payments", "ar_invoices", "ar_receipts", "budget_lines"):
+        for r in data[t]:
+            r["amount_local"] = Decimal(r["amount_local"])
     data["fx"] = {r["currency"]: Decimal(r["rate_to_aud"]) for r in data["fx_rates"]}
     return data
 
@@ -205,8 +209,85 @@ def check_restricted_fund_balances(data):
     return out
 
 
+def check_journal_approval(data):
+    """Every journal has a header, a known preparer, and an approver who is not the preparer and holds JOURNAL_APPROVE."""
+    headers = {j["journal_id"]: j for j in data["journals"]}
+    users = {u["user_id"] for u in data["users"]}
+    groups = defaultdict(set)
+    for r in data["role_assignments"]:
+        groups[r["user_id"]].add(r["security_group"])
+    out = []
+    for jid in sorted({r["journal_id"] for r in data["journal_lines"]}):
+        h = headers.get(jid)
+        if h is None:
+            out.append(f"Journal {jid}: no header record (source, preparer, approver)")
+            continue
+        if h["created_by"] not in users:
+            out.append(f"Journal {jid}: unknown preparer {h['created_by']}")
+        if not h["approved_by"]:
+            out.append(f"Journal {jid}: not approved")
+        elif h["approved_by"] == h["created_by"]:
+            out.append(f"Journal {jid}: prepared and approved by the same user {h['created_by']}")
+        elif "JOURNAL_APPROVE" not in groups[h["approved_by"]]:
+            out.append(f"Journal {jid}: approver {h['approved_by']} is not in JOURNAL_APPROVE")
+    return out
+
+
+def check_role_conflicts(data):
+    """No user holds two security groups that the segregation-of-duties matrix says must be kept apart."""
+    groups = defaultdict(set)
+    for r in data["role_assignments"]:
+        groups[r["user_id"]].add(r["security_group"])
+    return [f"User {u} holds both {c['group_a']} and {c['group_b']}: {c['risk']}"
+            for u in sorted(groups) for c in data["sod_conflicts"] if {c["group_a"], c["group_b"]} <= groups[u]]
+
+
+def check_subledger_tieout(data):
+    """Payables (2000) and receivables (1100) in the GL equal the AP and AR subledgers at every period end, per company."""
+    periods = sorted({r["posting_date"][:7] for r in data["journal_lines"]})
+    gl, sl = defaultdict(Decimal), defaultdict(Decimal)
+    for r in data["journal_lines"]:
+        if r["ledger_account"] == "2000":
+            gl[("AP", r["company_id"], r["posting_date"][:7])] += r["credit_local"] - r["debit_local"]
+        elif r["ledger_account"] == "1100":
+            gl[("AR", r["company_id"], r["posting_date"][:7])] += r["debit_local"] - r["credit_local"]
+    for t, kind, date_f, sign in (("ap_invoices", "AP", "invoice_date", 1), ("ap_payments", "AP", "payment_date", -1),
+                                  ("ar_invoices", "AR", "invoice_date", 1), ("ar_receipts", "AR", "receipt_date", -1)):
+        for r in data[t]:
+            sl[(kind, r["company_id"], r[date_f][:7])] += sign * r["amount_local"]
+    out = []
+    for kind in ("AP", "AR"):
+        for co in sorted({c["company_id"] for c in data["companies"]}):
+            g = s_ = Decimal(0)
+            for p in periods:
+                g += gl[(kind, co, p)]
+                s_ += sl[(kind, co, p)]
+                if g != s_:
+                    out.append(f"{kind} subledger for {co} at {p}: GL {g} vs subledger {s_}")
+                    break
+    return out
+
+
+def check_budget_worktags(data):
+    """The budget ledger obeys the same dimension rules as actuals, and holds only revenue and expense accounts."""
+    cur = {c["company_id"]: c["currency"] for c in data["companies"]}
+    acc_type = {a["account_id"]: a["account_type"] for a in data["ledger_accounts"]}
+    rows = [dict(journal_id=b["budget_id"], line_no=1, company_id=b["company_id"], ledger_account=b["ledger_account"],
+                 cost_center=b["cost_center"], project=b["project"], fund=b["fund"], counter_company="",
+                 currency=cur.get(b["company_id"], "")) for b in data["budget_lines"]]
+    shadow = {**data, "journal_lines": rows}
+    out = check_required_worktags(shadow) + check_worktag_validity(shadow)
+    for b in data["budget_lines"]:
+        if acc_type.get(b["ledger_account"]) not in ("Revenue", "Expense"):
+            out.append(f"{b['budget_id']} line 1: budget on non-P&L account {b['ledger_account']}")
+        if b["amount_local"] < 0:
+            out.append(f"{b['budget_id']} line 1: negative budget amount {b['amount_local']}")
+    return out
+
+
 CHECKS = [check_journals_balance, check_required_worktags, check_worktag_validity, check_hierarchies, check_intercompany,
-          check_trial_balance, check_fixed_assets, check_grant_income_in_advance, check_restricted_fund_balances]
+          check_trial_balance, check_fixed_assets, check_grant_income_in_advance, check_restricted_fund_balances,
+          check_journal_approval, check_role_conflicts, check_subledger_tieout, check_budget_worktags]
 
 
 def run_all(data):

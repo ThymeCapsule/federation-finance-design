@@ -4,8 +4,9 @@ import sqlite3
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-TABLES = ["companies", "ledger_accounts", "cost_centers", "projects", "funds", "assets", "fx_rates", "hierarchy", "journal_lines"]
-NUMERIC = {"requires_fund", "cost_local", "life_months", "debit_local", "credit_local", "rate_to_aud", "requires_cost_center", "requires_project", "is_intercompany"}
+TABLES = ["companies", "ledger_accounts", "cost_centers", "projects", "funds", "assets", "fx_rates", "hierarchy", "journal_lines",
+          "journals", "ap_invoices", "ap_payments", "ar_invoices", "ar_receipts", "budget_lines"]
+NUMERIC = {"requires_fund", "cost_local", "life_months", "debit_local", "credit_local", "rate_to_aud", "requires_cost_center", "requires_project", "is_intercompany", "amount_local"}
 
 
 def load(con):
@@ -23,7 +24,7 @@ def main():
     load(con)
     con.executescript((ROOT / "sql" / "00_views.sql").read_text())
     (ROOT / "reports").mkdir(exist_ok=True)
-    for sql in sorted((ROOT / "sql").glob("0[1-9]_*.sql")):
+    for sql in sorted(f for f in (ROOT / "sql").glob("[0-9][0-9]_*.sql") if not f.stem.startswith("00_")):
         cur = con.execute(sql.read_text())
         headers = [d[0] for d in cur.description]
         rows = cur.fetchall()
