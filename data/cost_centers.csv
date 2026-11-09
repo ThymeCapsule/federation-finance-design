@@ -1,0 +1,11 @@
+cost_center_id,name,company_scope
+BAL-HE,Higher Education Delivery - Ballarat,UNI
+BAL-TAFE,TAFE Delivery - Ballarat,UNI
+GIP-HE,Higher Education Delivery - Gippsland,UNI
+GIP-TAFE,TAFE Delivery - Gippsland,UNI
+BER-HE,Higher Education Delivery - Berwick,UNI
+WIM-TAFE,TAFE Delivery - Wimmera,UNI
+ONL-HE,Online Delivery,UNI
+RES-OFF,Research Office,UNI
+COR-SVC,Corporate and Student Services,UNI
+COM-OPS,Commercial Operations,COM

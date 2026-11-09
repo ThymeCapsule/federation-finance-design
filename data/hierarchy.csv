@@ -1,0 +1,74 @@
+hierarchy_name,node_id,parent_id,node_type,node_name
+COMPANY,GRP,,root,Group (modelled)
+COMPANY,UNI,GRP,company,University (modelled)
+COMPANY,COM,GRP,company,Controlled commercial entity (hypothetical)
+CC_CAMPUS,CAMPUS-ROOT,,root,All Campuses
+CC_CAMPUS,BAL,CAMPUS-ROOT,campus,Ballarat
+CC_CAMPUS,GIP,CAMPUS-ROOT,campus,Gippsland
+CC_CAMPUS,BER,CAMPUS-ROOT,campus,Berwick
+CC_CAMPUS,WIM,CAMPUS-ROOT,campus,Wimmera
+CC_CAMPUS,CEN,CAMPUS-ROOT,campus,Central and Online
+CC_SECTOR,SECTOR-ROOT,,root,All Sectors
+CC_SECTOR,HE,SECTOR-ROOT,sector,Higher Education
+CC_SECTOR,TAFE,SECTOR-ROOT,sector,TAFE
+CC_SECTOR,RES,SECTOR-ROOT,sector,Research
+CC_SECTOR,CORP,SECTOR-ROOT,sector,Corporate
+CC_SECTOR,COM,SECTOR-ROOT,sector,Commercial
+CC_CAMPUS,BAL-HE,BAL,cost_center,Higher Education Delivery - Ballarat
+CC_SECTOR,BAL-HE,HE,cost_center,Higher Education Delivery - Ballarat
+CC_CAMPUS,BAL-TAFE,BAL,cost_center,TAFE Delivery - Ballarat
+CC_SECTOR,BAL-TAFE,TAFE,cost_center,TAFE Delivery - Ballarat
+CC_CAMPUS,GIP-HE,GIP,cost_center,Higher Education Delivery - Gippsland
+CC_SECTOR,GIP-HE,HE,cost_center,Higher Education Delivery - Gippsland
+CC_CAMPUS,GIP-TAFE,GIP,cost_center,TAFE Delivery - Gippsland
+CC_SECTOR,GIP-TAFE,TAFE,cost_center,TAFE Delivery - Gippsland
+CC_CAMPUS,BER-HE,BER,cost_center,Higher Education Delivery - Berwick
+CC_SECTOR,BER-HE,HE,cost_center,Higher Education Delivery - Berwick
+CC_CAMPUS,WIM-TAFE,WIM,cost_center,TAFE Delivery - Wimmera
+CC_SECTOR,WIM-TAFE,TAFE,cost_center,TAFE Delivery - Wimmera
+CC_CAMPUS,ONL-HE,CEN,cost_center,Online Delivery
+CC_SECTOR,ONL-HE,HE,cost_center,Online Delivery
+CC_CAMPUS,RES-OFF,CEN,cost_center,Research Office
+CC_SECTOR,RES-OFF,RES,cost_center,Research Office
+CC_CAMPUS,COR-SVC,CEN,cost_center,Corporate and Student Services
+CC_SECTOR,COR-SVC,CORP,cost_center,Corporate and Student Services
+CC_CAMPUS,COM-OPS,CEN,cost_center,Commercial Operations
+CC_SECTOR,COM-OPS,COM,cost_center,Commercial Operations
+FUND,FUND-ROOT,,root,All Funds
+FUND,FT-UNR,FUND-ROOT,fund_type,Unrestricted
+FUND,FT-RST,FUND-ROOT,fund_type,Restricted
+FUND,FT-CAP,FUND-ROOT,fund_type,Capital
+FUND,F-OP,FT-UNR,fund,General Operating
+FUND,F-RES,FT-RST,fund,Research and Grants
+FUND,F-RST,FT-RST,fund,Donations and Scholarships
+FUND,F-CAP,FT-CAP,fund,Capital Works
+ACCOUNT,TOTAL,,root,Chart of Accounts
+ACCOUNT,ASSETS,TOTAL,category,Assets
+ACCOUNT,LIABS,TOTAL,category,Liabilities
+ACCOUNT,EQUITY,TOTAL,category,Equity
+ACCOUNT,REV,TOTAL,category,Revenue
+ACCOUNT,EXP,TOTAL,category,Expenses
+ACCOUNT,1000,ASSETS,account,Cash
+ACCOUNT,1100,ASSETS,account,Student and Other Receivables
+ACCOUNT,1500,ASSETS,account,Intercompany Receivable
+ACCOUNT,1700,ASSETS,account,"Property, Plant and Equipment at Cost"
+ACCOUNT,1710,ASSETS,account,Accumulated Depreciation
+ACCOUNT,2000,LIABS,account,Trade Payables
+ACCOUNT,2100,LIABS,account,Grant Income in Advance
+ACCOUNT,2500,LIABS,account,Intercompany Payable
+ACCOUNT,3000,EQUITY,account,Accumulated Funds
+ACCOUNT,4000,REV,account,Commonwealth Government Funding
+ACCOUNT,4050,REV,account,State Government Funding (TAFE)
+ACCOUNT,4100,REV,account,Student Contributions and Fees
+ACCOUNT,4200,REV,account,International and Commercial Fees
+ACCOUNT,4300,REV,account,Research Grant Revenue
+ACCOUNT,4400,REV,account,Capital Grants
+ACCOUNT,4500,REV,account,Shared Services Income
+ACCOUNT,4600,REV,account,Donations and Bequests
+ACCOUNT,6000,EXP,account,Academic Salaries
+ACCOUNT,6050,EXP,account,Professional Staff Salaries
+ACCOUNT,6100,EXP,account,Occupancy and Utilities
+ACCOUNT,6200,EXP,account,Depreciation Expense
+ACCOUNT,6300,EXP,account,Scholarships and Grants Paid
+ACCOUNT,6400,EXP,account,Research Costs
+ACCOUNT,6500,EXP,account,Shared Services Charge

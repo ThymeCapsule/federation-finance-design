@@ -1,0 +1,34 @@
+company_id,ledger_account,account_name,debit,credit,net_dr_cr_aud
+COM,1000,Cash,7795940.0,1391609.0,6404331.0
+COM,1100,Student and Other Receivables,3106600.0,2795940.0,310660.0
+COM,1700,"Property, Plant and Equipment at Cost",150000.0,0.0,150000.0
+COM,1710,Accumulated Depreciation,0.0,10000.0,-10000.0
+COM,2000,Trade Payables,0.0,150000.0,-150000.0
+COM,2500,Intercompany Payable,0.0,720000.0,-720000.0
+COM,3000,Accumulated Funds,0.0,5000000.0,-5000000.0
+COM,4200,International and Commercial Fees,0.0,3106600.0,-3106600.0
+COM,6050,Professional Staff Salaries,1391609.0,0.0,1391609.0
+COM,6200,Depreciation Expense,10000.0,0.0,10000.0
+COM,6500,Shared Services Charge,720000.0,0.0,720000.0
+UNI,1000,Cash,177634215.3,75120983.9,102513231.4
+UNI,1100,Student and Other Receivables,13398167.0,12058350.3,1339816.7
+UNI,1500,Intercompany Receivable,720000.0,0.0,720000.0
+UNI,1700,"Property, Plant and Equipment at Cost",4500000.0,0.0,4500000.0
+UNI,1710,Accumulated Depreciation,0.0,140000.0,-140000.0
+UNI,2000,Trade Payables,4149065.9,9381254.0,-5232188.1
+UNI,2100,Grant Income in Advance,3393989.0,5400000.0,-2006011.0
+UNI,3000,Accumulated Funds,0.0,90000000.0,-90000000.0
+UNI,4000,Commonwealth Government Funding,0.0,37012339.0,-37012339.0
+UNI,4050,State Government Funding (TAFE),0.0,20909669.0,-20909669.0
+UNI,4100,Student Contributions and Fees,0.0,13398167.0,-13398167.0
+UNI,4200,International and Commercial Fees,0.0,8070667.0,-8070667.0
+UNI,4300,Research Grant Revenue,0.0,3393989.0,-3393989.0
+UNI,4400,Capital Grants,0.0,3000000.0,-3000000.0
+UNI,4500,Shared Services Income,0.0,720000.0,-720000.0
+UNI,4600,Donations and Bequests,0.0,1183190.0,-1183190.0
+UNI,6000,Academic Salaries,56472480.0,0.0,56472480.0
+UNI,6050,Professional Staff Salaries,10571462.0,0.0,10571462.0
+UNI,6100,Occupancy and Utilities,4881254.0,0.0,4881254.0
+UNI,6200,Depreciation Expense,140000.0,0.0,140000.0
+UNI,6300,Scholarships and Grants Paid,533987.0,0.0,533987.0
+UNI,6400,Research Costs,3393989.0,0.0,3393989.0

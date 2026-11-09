@@ -1,0 +1,5 @@
+asset_id,company_id,description,cost_local,acquisition_date,life_months,cost_center
+FA-UNI-01,UNI,Teaching facilities fit-out,2400000.00,2026-01-31,240,BAL-HE
+FA-UNI-02,UNI,TAFE workshop equipment,900000.00,2026-02-28,120,BAL-TAFE
+FA-UNI-03,UNI,Laboratory and IT equipment,1200000.00,2026-03-31,60,GIP-HE
+FA-COM-01,COM,Office fit-out,150000.00,2026-02-28,60,COM-OPS

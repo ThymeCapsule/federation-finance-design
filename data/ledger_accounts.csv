@@ -1,0 +1,25 @@
+account_id,name,account_type,normal_balance,requires_cost_center,requires_project,requires_fund,is_intercompany,allowed_funds
+1000,Cash,Asset,D,0,0,0,0,ANY
+1100,Student and Other Receivables,Asset,D,0,0,0,0,ANY
+1500,Intercompany Receivable,Asset,D,0,0,0,1,ANY
+1700,"Property, Plant and Equipment at Cost",Asset,D,1,0,0,0,ANY
+1710,Accumulated Depreciation,Asset,C,0,0,0,0,ANY
+2000,Trade Payables,Liability,C,0,0,0,0,ANY
+2100,Grant Income in Advance,Liability,C,0,1,1,0,F-RES
+2500,Intercompany Payable,Liability,C,0,0,0,1,ANY
+3000,Accumulated Funds,Equity,C,0,0,0,0,ANY
+4000,Commonwealth Government Funding,Revenue,C,1,0,1,0,F-OP
+4050,State Government Funding (TAFE),Revenue,C,1,0,1,0,F-OP
+4100,Student Contributions and Fees,Revenue,C,1,0,1,0,F-OP
+4200,International and Commercial Fees,Revenue,C,1,0,1,0,F-OP
+4300,Research Grant Revenue,Revenue,C,1,1,1,0,F-RES
+4400,Capital Grants,Revenue,C,1,0,1,0,F-CAP
+4500,Shared Services Income,Revenue,C,1,0,1,1,F-OP
+4600,Donations and Bequests,Revenue,C,1,0,1,0,F-RST
+6000,Academic Salaries,Expense,D,1,0,1,0,F-OP
+6050,Professional Staff Salaries,Expense,D,1,0,1,0,F-OP
+6100,Occupancy and Utilities,Expense,D,1,0,1,0,F-OP
+6200,Depreciation Expense,Expense,D,1,0,1,0,F-OP
+6300,Scholarships and Grants Paid,Expense,D,1,0,1,0,F-RST|F-OP
+6400,Research Costs,Expense,D,1,1,1,0,F-RES
+6500,Shared Services Charge,Expense,D,1,0,1,1,F-OP

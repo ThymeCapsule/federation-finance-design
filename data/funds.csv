@@ -1,0 +1,5 @@
+fund_id,name,fund_type
+F-OP,General Operating,Unrestricted
+F-RES,Research and Grants,Restricted
+F-RST,Donations and Scholarships,Restricted
+F-CAP,Capital Works,Capital

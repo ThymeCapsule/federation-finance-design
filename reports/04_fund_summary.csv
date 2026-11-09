@@ -1,0 +1,5 @@
+fund_type,fund_id,fund_name,revenue_aud,expense_aud,fund_result_aud
+Capital,F-CAP,Capital Works,3000000.0,0.0,3000000.0
+Restricted,F-RES,Research and Grants,3393989.0,3393989.0,0.0
+Restricted,F-RST,Donations and Scholarships,1183190.0,533987.0,649203.0
+Unrestricted,F-OP,General Operating,82497442.0,73466805.0,9030637.0
